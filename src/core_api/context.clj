@@ -5,15 +5,24 @@
 ;; Outside "Context": Defines what input places, output places, and events exist
 ;; This would be custom for every program (or at least for every hardware architecture)
 
+(def in-n-out-place (atom 0))
+
 ;; Input Context
 (def stdin-place (atom ""))
+(def stdin {:place-tag :raw :place-name :stdin})
+(def custom-in {:place-tag :raw :place-name :custom-in})
 (def in-places-map
-    {:stdin stdin-place})
+    {:stdin stdin-place
+     :custom-in in-n-out-place})
 
 ;; Output Context
 (def stdout {:place-tag :raw :place-name :stdout})  ;; adding the :raw tag so it can be used as a generic place
+(def custom-out {:place-tag :raw :place-name :custom-out})
+(def exit {:place-tag :raw :place-name :exit})
 (def out-places-map
-    {:stdout println})
+    {:stdout println
+     :custom-out (fn [val] (reset! in-n-out-place val))
+     :exit (fn [val] (System/exit val))})
 
 ;; Events Context
 (defn subscribe-to-std-in!
