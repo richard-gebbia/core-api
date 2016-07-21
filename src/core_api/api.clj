@@ -22,7 +22,7 @@
 
 (defmethod #^{:private true} map-in-place :connect
     [context place]
-    (let [in-places-map (:in-places-map context)
+    (let [in-places-map     (:in-places-map context)
           place-name        (:place-name place)
           connect-fn        (:connect-fn place)
           dependent-places  (:dependent-places place)

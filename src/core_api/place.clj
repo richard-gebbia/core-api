@@ -8,9 +8,10 @@
      The value that this function returns is, itself, considered a single place,
      despite being representative of more than one place. Essentially, this
      function allows the user to compose input places."
-    [dependent-places connect-fn]
+    [place-name dependent-places connect-fn]
     (identity 
-        {:place-tag         :connect
+        {:place-name        place-name
+         :place-tag         :connect
          :dependent-places  dependent-places
          :connect-fn        connect-fn}))
 
@@ -23,4 +24,4 @@
     [spread-fn]
     (identity
         {:place-tag :spread
-         :place-name spread-fn})
+         :spread-fn spread-fn}))

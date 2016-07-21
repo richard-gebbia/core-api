@@ -5,9 +5,9 @@ Will flesh out this README once it's more complete.
 
 ## Still to do
 - standard means for the user to generate and apply their own context
-- "connect"-ing in-places
 - one-shot events
 - the time API
+- ways to easily combine or add functionality to event handlers
 - WAYYYYYY more examples
 
 ## License
