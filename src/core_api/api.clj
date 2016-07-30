@@ -61,12 +61,30 @@
 ;; Public methods
 
 (defn endless! []
+  "Enlessly spin-locks. Effectively prevents the program from terminating
+   without an explicit call to System/exit."
   (let [poll-chan (chan)]
     (loop []
-      (do (poll! poll-chan)
+      (do (Thread/sleep 1)
+          (poll! poll-chan)
           (recur)))))
 
 (defn on-event
+  "The major function of the Core API. You can read a call to this as:
+   when {event} happens, grab the values at {in-places} provided by {context},
+   perform {xform}, and move the data that {xform} mapped to their respective
+   out-places provided by {context}.
+
+   context - a map containing events, in-places (places to read from), and out-places (places to write to)
+   event - the name of the event to subscribe to in {context}'s map from event names to events
+   in-places - a vector of the names of in-places to read from when the event occurs
+   xform - a function that takes a map of in-place names to in-place values and
+           returns a map of out-place names to out-place values;
+           the values in the parameter map are 'grabbed' at the time of the event;
+           the values in the returned map are 'sent' to their respective out-places
+
+  Calling this function maintains a continuous subscription, meaning that the
+  program will trigger {xform} EVERY TIME {event} happens, forever."
   [context event in-places xform]
   (let [events (:events context)
         subscribe (events event)]
@@ -75,5 +93,7 @@
                    (map-out-places context (xform in-places-to-values)))))))
 
 (defn add-context
+  "Partially applies on-event with its first parameter, since the context should
+   be the same for every call to on-event within the same program."
   [context]
   (partial on-event context))

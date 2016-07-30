@@ -17,7 +17,7 @@
 
 (defn spread 
   "Allows the user to 'spread' some places by providing a function that takes
-   a signle value and generates a map from the 'spread' places to values.
+   a single value and generates a map from the 'spread' places to values.
    The value that this function returns is, itself, considered a single place,
    despite being representative of more than one place. Essentially, this
    function allows the user to compose output places."
